@@ -1,0 +1,22 @@
+<div class="form-container shadow rounded bg-white p-4 mx-auto" style="max-width: 350px; margin-top: 40px;">
+  <h2 class="text-center mb-4 text-primary">Login</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <input
+        formControlName="username"
+        type="text"
+        class="form-control"
+        placeholder="Usuario">
+    </div>
+    <div class="mb-3">
+      <input
+        formControlName="password"
+        type="password"
+        class="form-control"
+        placeholder="Contraseña">
+    </div>
+    <button type="submit" class="btn btn-primary w-100 mb-2">Entrar</button>
+  </form>
+  <div *ngIf="errorMsg" class="alert alert-danger py-2 mt-2 text-center">{{ errorMsg }}</div>
+  <a routerLink="/register" class="d-block text-center text-primary mt-2 text-decoration-none">¿No tienes cuenta? Regístrate</a>
+</div>

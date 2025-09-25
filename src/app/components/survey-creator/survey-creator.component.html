@@ -1,0 +1,246 @@
+<!-- Toasts Bootstrap -->
+<div aria-live="polite" aria-atomic="true" style="position: relative;">
+  <div
+    *ngIf="showToast"
+    class="toast show"
+    [ngClass]="{'bg-success text-white': toastType === 'success', 'bg-danger text-white': toastType === 'error'}"
+    style="position: fixed; top: 1rem; right: 1rem; min-width: 300px; z-index: 1060;"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true">
+    <div class="toast-header" [ngClass]="{'bg-success text-white': toastType === 'success', 'bg-danger text-white': toastType === 'error'}">
+      <strong class="me-auto">
+        {{ toastType === 'success' ? 'Éxito' : 'Error' }}
+      </strong>
+      <button type="button" class="btn-close btn-close-white ms-2 m-auto" (click)="showToast = false" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      {{ toastMessage }}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="createdSurveyId" class="alert alert-info mt-3">
+  <strong>Encuesta creada:</strong>
+  <br>
+  Endpoint: <code>/survey/{{ createdSurveyId }}</code>
+  <br>
+  <a class="btn btn-link btn-sm" [routerLink]="['/survey', createdSurveyId]">Ir a la encuesta</a>
+</div>
+
+<!-- Contenido principal del creator -->
+<div class="creator-content">
+  <div class="container-fluid">
+    <div class="row min-vh-100 align-items-center justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <!-- Card principal con efecto glassmorphism -->
+        <div class="glass-card">
+          <div class="card-header-custom text-center mb-4">
+            <div class="icon-wrapper mb-3">
+              <i class="bi bi-plus-circle-fill display-4"></i>
+            </div>
+            <h1 class="display-6 fw-bold gradient-text mb-2">Creador de Encuestas</h1>
+            <p class="lead opacity-75">Diseña encuestas profesionales con facilidad</p>
+          </div>
+          <!-- Formulario principal -->
+          <form class="creator-form">
+            <div class="input-group-custom mb-4">
+              <label class="form-label-custom">Título de la encuesta</label>
+              <div class="input-wrapper">
+                <i class="bi bi-card-heading input-icon"></i>
+                <input class="form-control-custom"
+                  [(ngModel)]="survey.title"
+                  name="title"
+                  placeholder="Ej: Encuesta de satisfacción del cliente"
+                  [ngClass]="{'is-invalid': survey.title.trim().length === 0}"
+                >
+              </div>
+              <div *ngIf="survey.title.trim().length === 0" class="error-badge">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                El título es obligatorio
+              </div>
+            </div>
+
+            <div class="input-group-custom mb-4">
+              <label class="form-label-custom">Descripción</label>
+              <div class="input-wrapper">
+                <i class="bi bi-text-paragraph input-icon"></i>
+                <textarea class="form-control-custom textarea-custom"
+                  [(ngModel)]="survey.description"
+                  name="description"
+                  placeholder="Describe el propósito de tu encuesta..."
+                  rows="3"
+                  [ngClass]="{'is-invalid': survey.description.trim().length === 0}"
+                ></textarea>
+              </div>
+              <div *ngIf="survey.description.trim().length === 0" class="error-badge">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                La descripción es obligatoria
+              </div>
+            </div>
+
+            <div class="input-group-custom mb-4">
+              <label class="form-label-custom">Empresa</label>
+              <div class="input-wrapper">
+                <i class="bi bi-building input-icon"></i>
+                <input class="form-control-custom"
+                  [(ngModel)]="survey.enterpriseName"
+                  name="enterprise"
+                  placeholder="Nombre de tu empresa u organización"
+                  [ngClass]="{'is-invalid': survey.enterpriseName.trim().length === 0}"
+                >
+              </div>
+              <div *ngIf="survey.enterpriseName.trim().length === 0" class="error-badge">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                El nombre de la empresa es obligatorio
+              </div>
+            </div>
+          </form>
+          <!-- Sección de agregar preguntas -->
+          <div class="section-divider mb-4">
+            <div class="divider-line"></div>
+            <h3 class="section-title">Agregar Preguntas</h3>
+            <div class="divider-line"></div>
+          </div>
+          <div class="questions-grid mb-4">
+            <div class="input-group-custom">
+              <label class="form-label-custom">Tipo de pregunta</label>
+              <div class="input-wrapper">
+                <i class="bi bi-list-ul input-icon"></i>
+                <select class="form-control-custom select-custom"
+                  [(ngModel)]="newQuestion.type"
+                  name="questionType"
+                  (change)="onTypeChange()"
+                  [ngClass]="{'is-invalid': !newQuestion.type}">
+                  <option value="">Selecciona un tipo</option>
+                  <option value="checkbox">📋 Selección múltiple</option>
+                  <option value="text">✏️ Respuesta corta</option>
+                  <option value="comment">📝 Respuesta larga</option>
+                </select>
+              </div>
+              <div *ngIf="!newQuestion.type" class="error-badge">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                Selecciona un tipo de pregunta
+              </div>
+            </div>
+
+            <div class="input-group-custom">
+              <label class="form-label-custom">Pregunta</label>
+              <div class="input-wrapper">
+                <i class="bi bi-question-circle input-icon"></i>
+                <input class="form-control-custom"
+                  [(ngModel)]="newQuestion.title"
+                  name="questionTitle"
+                  placeholder="¿Cuál es tu pregunta?"
+                  [ngClass]="{'is-invalid': newQuestion.title.trim().length === 0}">
+              </div>
+              <div *ngIf="newQuestion.title.trim().length === 0" class="error-badge">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                Escribe el texto de la pregunta
+              </div>
+            </div>
+
+            <div class="input-group-custom">
+              <label class="form-label-custom">Identificador</label>
+              <div class="input-wrapper">
+                <i class="bi bi-tag input-icon"></i>
+                <input class="form-control-custom"
+                  [(ngModel)]="newQuestion.name"
+                  name="questionName"
+                  placeholder="id_unico_pregunta"
+                  [ngClass]="{'is-invalid': newQuestion.name.trim().length === 0}">
+              </div>
+              <div *ngIf="newQuestion.name.trim().length === 0" class="error-badge">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                El identificador es obligatorio
+              </div>
+            </div>
+          </div>
+          <div *ngIf="showChoicesInput" class="choices-section mb-4">
+            <label class="form-label-custom">Opciones de respuesta</label>
+            <div class="choice-input-wrapper mb-3">
+              <div class="input-wrapper">
+                <i class="bi bi-plus-square input-icon"></i>
+                <input class="form-control-custom" 
+                  [(ngModel)]="newOption" 
+                  name="newOption"
+                  placeholder="Escribe una opción...">
+                <button class="add-choice-btn" (click)="addChoice()" type="button">
+                  <i class="bi bi-plus-circle"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="choices-list" *ngIf="newQuestion.choices?.length">
+              <div *ngFor="let choice of newQuestion.choices; let i=index"
+                   class="choice-item">
+                <span class="choice-text">{{ choice }}</span>
+                <button class="remove-choice-btn" (click)="removeChoice(i)" type="button">
+                  <i class="bi bi-x-circle"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div *ngIf="showChoicesInput && (!newQuestion.choices || newQuestion.choices.length === 0)" class="error-badge-large">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              Agrega al menos una opción de respuesta
+            </div>
+          </div>
+
+          <button class="btn-custom w-100 mb-4"
+            (click)="addQuestion()"
+            type="button"
+            [disabled]="!isQuestionValid">
+            <span class="btn-text">
+              <i class="bi bi-plus-circle-fill me-2"></i>
+              Agregar Pregunta
+            </span>
+            <div class="btn-ripple"></div>
+          </button>
+          <!-- Lista de preguntas agregadas -->
+          <div *ngIf="survey.questions.length" class="questions-summary mb-4">
+            <div class="section-divider mb-3">
+              <div class="divider-line"></div>
+              <h4 class="section-title-small">Preguntas ({{ survey.questions.length }})</h4>
+              <div class="divider-line"></div>
+            </div>
+            
+            <div class="questions-list">
+              <div *ngFor="let q of survey.questions; let i = index" class="question-item">
+                <div class="question-info">
+                  <div class="question-type-badge">
+                    <span *ngIf="q.type === 'checkbox'">📋</span>
+                    <span *ngIf="q.type === 'text'">✏️</span>
+                    <span *ngIf="q.type === 'comment'">📝</span>
+                    {{ q.type === 'checkbox' ? 'Múltiple' : q.type === 'text' ? 'Corta' : 'Larga' }}
+                  </div>
+                  <div class="question-content">
+                    <strong class="question-title">{{ q.title }}</strong>
+                    <div *ngIf="q.type === 'checkbox'" class="question-choices">
+                      <small class="choices-preview">Opciones: {{ q.choices?.join(', ') }}</small>
+                    </div>
+                  </div>
+                </div>
+                <button class="remove-question-btn" (click)="removeQuestion(i)" type="button">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón final para guardar -->
+          <button class="btn-custom-primary w-100"
+            (click)="saveSurvey()"
+            [disabled]="!isSurveyValid || loading"
+            type="button">
+            <span class="btn-text">
+              <i class="bi bi-cloud-arrow-up me-2"></i>
+              {{ loading ? 'Guardando...' : 'Guardar Encuesta' }}
+            </span>
+            <div class="btn-ripple"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

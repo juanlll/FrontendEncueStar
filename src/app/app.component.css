@@ -1,0 +1,327 @@
+.app-content {
+  overflow-y: auto;
+}
+
+/* Contenido de la aplicación */
+.app-content {
+  min-height: calc(100vh - 76px);
+  position: relative;
+  z-index: 1;
+}
+
+/* Para rutas que no son home, mantener el container Bootstrap */
+#app:not(.home-route) .app-content {
+  padding: 0 15px;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+/* Fondo removido para mostrar los lápices animados */
+.navbar {
+  background-color: #f3f3f3;
+  padding: 16px;
+}
+.navbar-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+}
+.navbar a {
+    line-height: 24px;
+    text-decoration: none;
+    color: #777;
+}
+.navbar a:hover {
+  color: #404040;
+}
+.navbar ul {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+}
+
+.text-primary {
+  --bs-text-opacity: 1;
+  color: #0f4784 !important;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+/* Navbar transparente global */
+.navbar-transparent {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.navbar-transparent .navbar-brand,
+.navbar-transparent .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.navbar-transparent .nav-link:hover {
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+.navbar-transparent .text-primary {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.navbar-transparent .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar-transparent .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ===== FONDO ANIMADO GLOBAL ===== */
+
+/* Fondo animado para toda la app */
+.app-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(135deg, #19b394 0%, #17a085 25%, #0f6e5a 50%, #0d8068 75%, #26c6a4 100%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.animated-svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  z-index: 10;
+}
+
+/* Animaciones de gráficos - Verde olivo */
+.floating-chart {
+  animation: chart-float 8s ease-in-out infinite;
+  transform-origin: center;
+  opacity: 0.9;
+}
+
+.chart-1 { animation-delay: 0s; animation-duration: 7s; }
+.chart-2 { animation-delay: 1s; animation-duration: 8s; }
+.chart-3 { animation-delay: 2s; animation-duration: 6s; }
+.chart-4 { animation-delay: 3s; animation-duration: 9s; }
+.chart-5 { animation-delay: 4s; animation-duration: 7.5s; }
+.chart-6 { animation-delay: 5s; animation-duration: 8.5s; }
+.chart-7 { animation-delay: 1.5s; animation-duration: 6.5s; }
+.chart-8 { animation-delay: 2.5s; animation-duration: 7.8s; }
+.chart-9 { animation-delay: 3.5s; animation-duration: 8.2s; }
+.chart-10 { animation-delay: 4.5s; animation-duration: 6.8s; }
+
+@keyframes chart-float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) translateX(15px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-10px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-25px) translateX(8px) rotate(1.5deg);
+  }
+}
+
+/* Animaciones específicas para elementos de gráficos */
+@keyframes bar-animate {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.2); }
+}
+
+@keyframes circle-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes circle-rotate-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes line-draw {
+  0% { stroke-dasharray: 0 200; }
+  50% { stroke-dasharray: 100 100; }
+  100% { stroke-dasharray: 200 0; }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
+
+@keyframes donut-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes donut-spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes area-wave {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes area-wave-reverse {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(3px); }
+}
+
+@keyframes mini-bar {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.3); }
+}
+
+@keyframes mini-circle {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 50; }
+}
+
+@keyframes bubble-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+}
+
+@keyframes gauge-fill {
+  0% { stroke-dasharray: 0 100; }
+  100% { stroke-dasharray: 75 25; }
+}
+
+@keyframes connection-pulse {
+  0%, 100% { opacity: 0.6; stroke-width: 2; }
+  50% { opacity: 1; stroke-width: 4; }
+}
+
+@keyframes node-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+@keyframes progress-animate {
+  0% { stroke-dasharray: 0 180; }
+  100% { stroke-dasharray: 120 60; }
+}
+
+/* Aplicar animaciones a elementos específicos */
+.bar-animate { animation: bar-animate 3s ease-in-out infinite; }
+.circle-rotate { animation: circle-rotate 10s linear infinite; }
+.circle-rotate-reverse { animation: circle-rotate-reverse 8s linear infinite; }
+.line-draw { animation: line-draw 4s ease-in-out infinite; }
+.dot-pulse { animation: dot-pulse 2s ease-in-out infinite; }
+.donut-spin { animation: donut-spin 6s linear infinite; }
+.donut-spin-reverse { animation: donut-spin-reverse 8s linear infinite; }
+.area-wave { animation: area-wave 4s ease-in-out infinite; }
+.area-wave-reverse { animation: area-wave-reverse 3s ease-in-out infinite; }
+.mini-bar { animation: mini-bar 2.5s ease-in-out infinite; }
+.mini-circle { animation: mini-circle 3s linear infinite; }
+.bubble-float { animation: bubble-float 5s ease-in-out infinite; }
+.gauge-fill { animation: gauge-fill 2s ease-in-out infinite; }
+.connection-pulse { animation: connection-pulse 2s ease-in-out infinite; }
+.node-pulse { animation: node-pulse 1.8s ease-in-out infinite; }
+.progress-animate { animation: progress-animate 3s ease-in-out infinite; }
+
+/* Animación adicional para simular escritura */
+@keyframes pencil-write {
+  0%, 80%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Aplicar solo la animación principal de flotación */
+
+/* Efectos de datos y patrones para analytics */
+.app-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    /* Grid suave como papel milimetrado */
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    /* Puntos de datos dispersos */
+    radial-gradient(circle at 20% 30%, rgba(25, 179, 148, 0.15) 2px, transparent 3px),
+    radial-gradient(circle at 70% 20%, rgba(38, 198, 164, 0.12) 1px, transparent 2px),
+    radial-gradient(circle at 45% 80%, rgba(15, 110, 90, 0.18) 3px, transparent 4px),
+    radial-gradient(circle at 80% 60%, rgba(13, 128, 104, 0.14) 2px, transparent 3px),
+    radial-gradient(circle at 15% 70%, rgba(32, 201, 151, 0.16) 1px, transparent 2px);
+  background-size: 30px 30px, 30px 30px, 250px 250px, 180px 180px, 320px 320px, 200px 200px, 150px 150px;
+  animation: data-drift 20s linear infinite;
+  opacity: 0.4;
+}
+
+@keyframes data-drift {
+  0% { 
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-5px) translateX(3px);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-8px) translateX(-2px);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translateY(-3px) translateX(4px);
+    opacity: 0.4;
+  }
+  100% { 
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.3;
+  }
+}
+
+/* Efectos adicionales para gráficos */
+.floating-chart text {
+  animation: text-glow 3s ease-in-out infinite;
+}
+
+@keyframes text-glow {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 2px rgba(25, 179, 148, 0.6));
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "fs": ["empty.ts"],
+      "path": ["empty.ts"]
+    },
+    "resolveJsonModule": true,
+    "outDir": "../out-tsc/app",
+    "module": "es2015",
+    "baseUrl": "",
+  },
+  "exclude": ["test.ts", "**/*.spec.ts"]
+}
