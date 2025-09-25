@@ -1,22 +1,40 @@
 <div class="form-container shadow rounded bg-white p-4 mx-auto" style="max-width: 350px; margin-top: 40px;">
   <h2 class="text-center mb-4 text-primary">Login</h2>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
       <input
-        formControlName="username"
-        type="text"
+        formControlName="email"
+        type="email"
         class="form-control"
-        placeholder="Usuario">
+        [class.is-invalid]="isFieldInvalid('email')"
+        placeholder="Email">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+        {{ getFieldError('email') }}
+      </div>
     </div>
     <div class="mb-3">
-      <input
-        formControlName="password"
-        type="password"
-        class="form-control"
-        placeholder="Contraseña">
+      <div class="input-group">
+        <input
+          formControlName="password"
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('password')"
+          placeholder="Contraseña">
+        <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+          <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+        </button>
+      </div>
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+        {{ getFieldError('password') }}
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary w-100 mb-2">Entrar</button>
+    <button type="submit" class="btn btn-primary w-100 mb-2" [disabled]="isLoading">
+      <span *ngIf="!isLoading">Entrar</span>
+      <span *ngIf="isLoading">
+        <i class="bi bi-arrow-clockwise spin me-2"></i>Iniciando...
+      </span>
+    </button>
   </form>
-  <div *ngIf="errorMsg" class="alert alert-danger py-2 mt-2 text-center">{{ errorMsg }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger py-2 mt-2 text-center">{{ errorMessage }}</div>
   <a routerLink="/register" class="d-block text-center text-primary mt-2 text-decoration-none">¿No tienes cuenta? Regístrate</a>
 </div>

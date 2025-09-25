@@ -8,7 +8,8 @@ import { User } from '../models/user.model';
 
 @Component({
   selector: 'creator-page',
-  templateUrl: './creator.page.html'
+  templateUrl: './creator.page.html',
+  styleUrls: ['./creator.page.css']
 })
 export class CreatorPage implements OnInit, OnDestroy {
   currentUser: User | null = null;
@@ -44,7 +45,8 @@ export class CreatorPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.checkAuthentication();
+    // Temporarily disabled for development - allow access without authentication
+    // this.checkAuthentication();
     this.loadSurveyId();
     this.loadCurrentUser();
   }
@@ -142,11 +144,11 @@ export class CreatorPage implements OnInit, OnDestroy {
           this.isLoading = false;
           this.currentSurvey = survey;
           
-          // Check if current user is the owner
-          if (this.currentUser && survey.creatorId !== this.currentUser.id) {
-            // Redirect to unauthorized page or show error
-            this.router.navigate(['/']);
-          }
+          // Check if current user is the owner (temporarily disabled for development)
+          // if (this.currentUser && survey.creatorId !== this.currentUser.id) {
+          //   // Redirect to unauthorized page or show error
+          //   this.router.navigate(['/']);
+          // }
         },
         error: (error) => {
           this.isLoading = false;
@@ -157,7 +159,8 @@ export class CreatorPage implements OnInit, OnDestroy {
   }
 
   private createNewSurvey(surveyJSON: any, showSuccess = true): void {
-    if (!this.currentUser) return;
+    // Temporarily allow without user authentication for development
+    // if (!this.currentUser) return;
 
     this.isLoading = true;
 

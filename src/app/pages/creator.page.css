@@ -1,0 +1,281 @@
+/* Creator Page Styles - Same glassmorphism theme as home */
+.creator-background {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #19b394 0%, #0d8068 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animated SVG Background */
+.animated-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.floating-chart {
+  animation: float 6s ease-in-out infinite;
+}
+
+.chart-1 { animation-delay: 0s; }
+.chart-2 { animation-delay: 2s; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1.2); }
+  33% { transform: translate(20px, -15px) scale(1.25); }
+  66% { transform: translate(-15px, 10px) scale(1.15); }
+}
+
+.bar-animate {
+  animation: barGrow 2s ease-out infinite alternate;
+}
+
+.circle-rotate {
+  animation: rotate 8s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes barGrow {
+  from { transform: scaleY(0.8); opacity: 0.7; }
+  to { transform: scaleY(1.2); opacity: 1; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Glass Card Styles (same as home) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Header Styles */
+.card-header-custom {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* Button Styles (same as home) */
+.btn-custom {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-custom:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.15) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  color: white;
+}
+
+.btn-custom:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ripple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-custom:active .btn-ripple {
+  opacity: 1;
+}
+
+/* Action buttons container */
+.action-buttons {
+  margin-bottom: 2rem;
+}
+
+/* Creator wrapper styles */
+.creator-wrapper {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(25, 179, 148, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  border-radius: 15px;
+}
+
+.loading-content {
+  text-align: center;
+  color: white;
+}
+
+/* Spinner animation */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Override survey creator styles to match theme */
+.creator-wrapper ::ng-deep {
+  /* Override any conflicting styles from the survey creator component */
+  .form-control,
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  select {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 10px !important;
+    color: white !important;
+    backdrop-filter: blur(10px);
+  }
+
+  .form-control::placeholder,
+  input::placeholder,
+  textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .form-control:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .btn {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    border-radius: 10px !important;
+    backdrop-filter: blur(10px);
+  }
+
+  .btn:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.15) 100%) !important;
+    transform: translateY(-1px);
+  }
+
+  .card,
+  .panel {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 15px !important;
+    backdrop-filter: blur(10px);
+  }
+
+  .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .text-dark,
+  .text-black {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: white !important;
+  }
+
+  label {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 600;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .btn-custom {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .creator-wrapper {
+    padding: 1rem;
+  }
+}

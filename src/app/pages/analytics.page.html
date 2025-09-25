@@ -1,0 +1,274 @@
+<!-- Fondo para esta página específica -->
+<div class="analytics-background">
+  <div class="container-fluid">
+    <div class="row min-vh-100 align-items-start justify-content-center py-5">
+      <div class="col-lg-10 col-md-11 col-sm-12">
+        
+        <!-- Card principal de búsqueda -->
+        <div class="glass-card mb-4">
+          <div class="card-header-custom text-center mb-4">
+            <div class="icon-wrapper mb-3">
+              <i class="bi bi-building display-4"></i>
+            </div>
+            <h1 class="display-5 fw-bold gradient-text mb-2">Analytics Empresarial</h1>
+            <p class="lead opacity-75">Analiza las encuestas creadas por una empresa</p>
+          </div>
+
+          <!-- Formulario de búsqueda -->
+          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" autocomplete="off" class="search-form">
+            <div class="input-group-custom mb-4">
+              <label class="form-label-custom">Nombre de la empresa</label>
+              <div class="input-wrapper">
+                <i class="bi bi-building input-icon"></i>
+                <input
+                  class="form-control-custom"
+                  type="text"
+                  formControlName="companyName"
+                  placeholder="Ingresa el nombre de la empresa"
+                  [class.is-invalid]="isFieldInvalid('companyName')">
+              </div>
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('companyName')">
+                {{ getFieldError('companyName') }}
+              </div>
+            </div>
+            
+            <button type="submit" class="btn-custom w-100 mb-4" [disabled]="isLoading">
+              <span class="btn-text" *ngIf="!isLoading">
+                <i class="bi bi-graph-up me-2"></i>
+                Analizar Encuestas
+              </span>
+              <span class="btn-text" *ngIf="isLoading">
+                <i class="bi bi-arrow-clockwise spin me-2"></i>
+                Buscando...
+              </span>
+              <div class="btn-ripple"></div>
+            </button>
+          </form>
+
+          <!-- Mensaje de error -->
+          <div class="alert alert-danger glass-alert" *ngIf="errorMessage">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+          </div>
+        </div>
+
+        <!-- Resultados de encuestas -->
+        <div class="glass-card" *ngIf="surveys.length > 0">
+          <div class="card-header-custom mb-4">
+            <h3 class="fw-bold gradient-text mb-2">
+              Encuestas de "{{ companyName }}"
+            </h3>
+            <p class="opacity-75">{{ surveys.length }} encuesta(s) encontrada(s)</p>
+          </div>
+
+          <!-- Tabla de encuestas -->
+          <div class="table-responsive">
+            <table class="table table-glass">
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Descripción</th>
+                  <th>Respuestas</th>
+                  <th>Estado</th>
+                  <th>Creada</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr 
+                  *ngFor="let survey of surveys" 
+                  class="survey-row"
+                  [class.selected]="selectedSurvey?.id === survey.id"
+                  (click)="onSurveyRowClick(survey)">
+                  <td class="fw-semibold">{{ survey.title }}</td>
+                  <td class="text-truncate" style="max-width: 200px;">{{ survey.description }}</td>
+                  <td>
+                    <span class="badge bg-primary rounded-pill">
+                      {{ survey.responseCount }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge rounded-pill" 
+                          [class.bg-success]="survey.isActive"
+                          [class.bg-secondary]="!survey.isActive">
+                      {{ survey.isActive ? 'Activa' : 'Inactiva' }}
+                    </span>
+                  </td>
+                  <td class="text-muted">
+                    {{ survey.createdAt | date:'dd/MM/yyyy' }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Panel de Analytics -->
+        <div class="glass-card mt-4" *ngIf="selectedSurvey">
+          <div class="card-header-custom mb-4">
+            <h4 class="fw-bold gradient-text mb-2">
+              <i class="bi bi-graph-up me-2"></i>
+              Analytics: {{ selectedSurvey.title }}
+            </h4>
+            <p class="opacity-75">Análisis detallado de respuestas</p>
+          </div>
+
+          <!-- Loading analytics -->
+          <div class="text-center py-4" *ngIf="isLoadingAnalytics">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando analytics...</span>
+            </div>
+            <p class="mt-2 text-muted">Cargando análisis...</p>
+          </div>
+
+          <!-- Analytics content -->
+          <div *ngIf="!isLoadingAnalytics && surveyAnalytics">
+            
+            <!-- Métricas generales -->
+            <div class="row mb-4">
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                  <div class="metric-icon">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="metric-content">
+                    <h5>{{ surveyAnalytics.totalResponses }}</h5>
+                    <small>Total Respuestas</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                  <div class="metric-icon">
+                    <i class="bi bi-check-circle"></i>
+                  </div>
+                  <div class="metric-content">
+                    <h5>{{ getCompletionPercentage() }}%</h5>
+                    <small>Tasa Completitud</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                  <div class="metric-icon">
+                    <i class="bi bi-clock"></i>
+                  </div>
+                  <div class="metric-content">
+                    <h5>{{ getAverageTimeFormatted() }}</h5>
+                    <small>Tiempo Promedio</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                  <div class="metric-icon">
+                    <i class="bi bi-person-check"></i>
+                  </div>
+                  <div class="metric-content">
+                    <h5>{{ surveyAnalytics.uniqueRespondents }}</h5>
+                    <small>Usuarios Únicos</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Análisis por pregunta -->
+            <div class="question-analytics">
+              <h5 class="fw-bold mb-3">
+                <i class="bi bi-question-circle me-2"></i>
+                Análisis por Pregunta
+              </h5>
+              
+              <div class="question-card" *ngFor="let questionAnalytics of surveyAnalytics.questionAnalytics">
+                <div class="question-header">
+                  <h6 class="fw-semibold mb-1">{{ questionAnalytics.questionTitle }}</h6>
+                  <div class="question-stats">
+                    <span class="badge bg-info me-2">
+                      {{ questionAnalytics.totalAnswers }} respuestas
+                    </span>
+                    <span class="badge bg-secondary">
+                      {{ getQuestionResponseRate(questionAnalytics) }}% tasa de respuesta
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Gráfico para preguntas de opción múltiple -->
+                <div class="chart-container" *ngIf="questionAnalytics.choiceDistribution">
+                  <div class="choice-chart">
+                    <div 
+                      class="choice-bar" 
+                      *ngFor="let choice of questionAnalytics.choiceDistribution">
+                      <div class="choice-label">{{ choice.choice }}</div>
+                      <div class="choice-progress">
+                        <div 
+                          class="choice-fill" 
+                          [style.width.%]="choice.percentage">
+                        </div>
+                        <span class="choice-percentage">{{ choice.percentage | number:'1.1-1' }}%</span>
+                      </div>
+                      <div class="choice-count">{{ choice.count }} votos</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Estadísticas para preguntas numéricas -->
+                <div class="numeric-stats" *ngIf="questionAnalytics.numericStats">
+                  <div class="row">
+                    <div class="col-6 col-md-3">
+                      <div class="stat-item">
+                        <strong>{{ questionAnalytics.numericStats.min }}</strong>
+                        <small>Mínimo</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="stat-item">
+                        <strong>{{ questionAnalytics.numericStats.max }}</strong>
+                        <small>Máximo</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="stat-item">
+                        <strong>{{ questionAnalytics.numericStats.average | number:'1.1-1' }}</strong>
+                        <small>Promedio</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="stat-item">
+                        <strong>{{ questionAnalytics.numericStats.median | number:'1.1-1' }}</strong>
+                        <small>Mediana</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Respuestas de texto (muestra solo las primeras) -->
+                <div class="text-responses" *ngIf="questionAnalytics.textResponses && questionAnalytics.textResponses.length > 0">
+                  <h6 class="fw-semibold mb-2">Respuestas de Texto (muestra):</h6>
+                  <div class="text-sample">
+                    <div 
+                      class="text-response" 
+                      *ngFor="let response of questionAnalytics.textResponses.slice(0, 3)">
+                      "{{ response }}"
+                    </div>
+                    <small class="text-muted" *ngIf="questionAnalytics.textResponses.length > 3">
+                      y {{ questionAnalytics.textResponses.length - 3 }} respuestas más...
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- No analytics available -->
+          <div class="text-center py-4" *ngIf="!isLoadingAnalytics && !surveyAnalytics">
+            <i class="bi bi-exclamation-circle display-4 text-muted mb-3"></i>
+            <p class="text-muted">No hay datos de análisis disponibles para esta encuesta.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

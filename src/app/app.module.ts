@@ -8,6 +8,7 @@ import { SurveyComponent } from "./components/survey.component";
 import { HomePage } from "./pages/home.page";
 import { SurveyPage } from "./pages/survey.page";
 import { CreatorPage } from "./pages/creator.page";
+import { AnalyticsPage } from "./pages/analytics.page";
 import { SurveyAnalyticsComponent } from "./components/survey.analytics.component";
 import { SurveyAnalyticsTabulatorComponent } from "./components/survey.analytics.tabulator";
 import { SurveyModule } from "survey-angular-ui";
@@ -25,6 +26,7 @@ import { SurveyCreatorComponent } from "./components/survey-creator/survey-creat
     SurveyPage,
     SurveyCreatorComponent,
     CreatorPage,
+    AnalyticsPage,
     SurveyAnalyticsComponent,
     SurveyAnalyticsTabulatorComponent,
     LoginComponent,

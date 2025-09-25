@@ -12,7 +12,7 @@
             <p class="lead opacity-75">Descubre insights valiosos a través de encuestas inteligentes</p>
           </div>
 
-          <form (ngSubmit)="goToSurvey()" autocomplete="off" class="search-form">
+          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" autocomplete="off" class="search-form">
             <div class="input-group-custom mb-4">
               <label class="form-label-custom">UUID de la encuesta</label>
               <div class="input-wrapper">
@@ -20,20 +20,33 @@
                 <input
                   class="form-control-custom"
                   type="text"
-                  [(ngModel)]="uuid"
-                  name="uuid"
+                  formControlName="uuid"
                   placeholder="Ejemplo: 123e4567-e89b-12d3-a456-426614174000"
+                  [class.is-invalid]="isFieldInvalid('uuid')"
                   required>
+              </div>
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('uuid')">
+                {{ getFieldError('uuid') }}
               </div>
             </div>
             
-            <button type="submit" class="btn-custom w-100 mb-4">
-              <span class="btn-text">
+            <button type="submit" class="btn-custom w-100 mb-4" [disabled]="isLoading">
+              <span class="btn-text" *ngIf="!isLoading">
                 <i class="bi bi-arrow-right-circle me-2"></i>
                 Acceder a la encuesta
               </span>
+              <span class="btn-text" *ngIf="isLoading">
+                <i class="bi bi-arrow-clockwise spin me-2"></i>
+                Buscando...
+              </span>
               <div class="btn-ripple"></div>
             </button>
+            
+            <!-- Mensaje de error -->
+            <div class="alert alert-danger glass-alert" *ngIf="errorMessage">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ errorMessage }}
+            </div>
           </form>
 
           <!-- Features destacadas -->

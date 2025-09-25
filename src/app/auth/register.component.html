@@ -1,23 +1,92 @@
-<div class="form-container shadow rounded bg-white p-4 mx-auto" style="max-width: 350px; margin-top: 40px;">
+<div class="form-container shadow rounded bg-white p-4 mx-auto" style="max-width: 400px; margin-top: 40px;">
   <h2 class="text-center mb-4 text-primary">Registro</h2>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-6 mb-3">
+        <input
+          formControlName="firstName"
+          type="text"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('firstName')"
+          placeholder="Nombre">
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('firstName')">
+          {{ getFieldError('firstName') }}
+        </div>
+      </div>
+      <div class="col-6 mb-3">
+        <input
+          formControlName="lastName"
+          type="text"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('lastName')"
+          placeholder="Apellido">
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('lastName')">
+          {{ getFieldError('lastName') }}
+        </div>
+      </div>
+    </div>
     <div class="mb-3">
       <input
         formControlName="username"
         type="text"
         class="form-control"
+        [class.is-invalid]="isFieldInvalid('username')"
         placeholder="Usuario">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('username')">
+        {{ getFieldError('username') }}
+      </div>
     </div>
     <div class="mb-3">
       <input
-        formControlName="password"
-        type="password"
+        formControlName="email"
+        type="email"
         class="form-control"
-        placeholder="Contraseña">
+        [class.is-invalid]="isFieldInvalid('email')"
+        placeholder="Email">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+        {{ getFieldError('email') }}
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary w-100 mb-2">Registrar</button>
+    <div class="mb-3">
+      <div class="input-group">
+        <input
+          formControlName="password"
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('password')"
+          placeholder="Contraseña">
+        <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+          <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+        </button>
+      </div>
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+        {{ getFieldError('password') }}
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="input-group">
+        <input
+          formControlName="confirmPassword"
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('confirmPassword')"
+          placeholder="Confirmar Contraseña">
+        <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPasswordVisibility()">
+          <i class="bi" [class.bi-eye]="!showConfirmPassword" [class.bi-eye-slash]="showConfirmPassword"></i>
+        </button>
+      </div>
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('confirmPassword')">
+        {{ getFieldError('confirmPassword') }}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100 mb-2" [disabled]="isLoading">
+      <span *ngIf="!isLoading">Registrar</span>
+      <span *ngIf="isLoading">
+        <i class="bi bi-arrow-clockwise spin me-2"></i>Registrando...
+      </span>
+    </button>
   </form>
-  <div *ngIf="errorMsg" class="alert alert-danger py-2 mt-2 text-center">{{ errorMsg }}</div>
-  <div *ngIf="successMsg" class="alert alert-success py-2 mt-2 text-center">{{ successMsg }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger py-2 mt-2 text-center">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="alert alert-success py-2 mt-2 text-center">{{ successMessage }}</div>
   <a routerLink="/login" class="d-block text-center text-primary mt-2 text-decoration-none">¿Ya tienes cuenta? Inicia sesión</a>
 </div>

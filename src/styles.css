@@ -9,6 +9,26 @@ body {
   margin: 0;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* Global animations */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Glass alert style for home page */
+.glass-alert {
+  background: rgba(220, 53, 69, 0.15);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 15px;
+  padding: 1rem 1.5rem;
+  color: white;
+  backdrop-filter: blur(10px);
+}
 .container {
   max-width: 1170px;
   margin: auto;
