@@ -1,9 +1,66 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-
+// Development environment configuration
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api/surveys',
+  
+  // API Configuration
+  apiUrl: 'http://localhost:3000/api',
+  surveyApiUrl: 'http://localhost:3000/api/surveys',
+  authApiUrl: 'http://localhost:3000/api/auth',
+  
+  // Application Configuration
+  appName: 'EncueStar',
+  appVersion: '1.1.0',
+  
+  // Feature Flags
+  features: {
+    enableAnalytics: true,
+    enableNotifications: true,
+    enableFileUpload: true,
+    enableSurveyTemplates: true,
+    enableAdvancedQuestions: true
+  },
+  
+  // UI Configuration
+  ui: {
+    defaultTheme: 'light',
+    enableAnimations: true,
+    autoSave: true,
+    autoSaveInterval: 30000, // 30 seconds
+    maxFileSize: 5242880, // 5MB in bytes
+    supportedImageTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+    supportedDocumentTypes: ['application/pdf', 'text/csv', 'application/json']
+  },
+  
+  // Security Configuration
+  security: {
+    tokenExpiration: 3600, // 1 hour in seconds
+    refreshTokenExpiration: 86400, // 24 hours in seconds
+    maxLoginAttempts: 5,
+    passwordMinLength: 8,
+    requireStrongPassword: true
+  },
+  
+  // Pagination defaults
+  pagination: {
+    defaultPageSize: 10,
+    maxPageSize: 100,
+    pageSizeOptions: [5, 10, 25, 50, 100]
+  },
+  
+  // Survey Configuration
+  survey: {
+    maxQuestionsPerSurvey: 100,
+    maxResponsesPerSurvey: 10000,
+    defaultSurveyExpiration: 30, // days
+    maxSurveyTitleLength: 100,
+    maxSurveyDescriptionLength: 500,
+    maxQuestionTitleLength: 200
+  },
+
+  // External Services (if any)
+  externalServices: {
+    googleAnalytics: '',
+    sentry: '',
+    emailService: ''
+  }
 };
