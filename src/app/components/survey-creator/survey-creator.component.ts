@@ -120,7 +120,7 @@ export class SurveyCreatorComponent {
     this.setLoading(true);
     const payload = this.buildSurveyPayload();
 
-    this.http.post(environment.apiUrl, payload).subscribe({
+    this.http.post(`${environment.apiUrl}/surveys`, payload).subscribe({
       next: (response: any) => this.handleSuccess(response),
       error: () => this.handleError()
     });

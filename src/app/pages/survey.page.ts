@@ -42,7 +42,7 @@ export class SurveyPage implements OnInit {
 
   private loadSurvey(): void {
     this.startLoading();
-    const apiUrl = `${environment.apiUrl}/${this.uuid}`;
+    const apiUrl = `${environment.apiUrl}/surveys/${this.uuid}`;
     this.http.get<SurveyApiResponse>(apiUrl).subscribe({
       next: data => this.handleSurveyData(data),
       error: () => this.setError('No se pudo cargar la encuesta.')
@@ -83,7 +83,7 @@ export class SurveyPage implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
 
-    this.http.post(`${environment.apiUrl}/answers`, payload).subscribe({
+    this.http.post(`${environment.apiUrl}/surveys/answers`, payload).subscribe({
       next: () => {
         this.successMessage = '¡Encuesta diligenciada correctamente!';
       },

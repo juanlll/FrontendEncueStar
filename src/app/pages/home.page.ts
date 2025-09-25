@@ -131,19 +131,7 @@ export class HomePage implements OnInit, OnDestroy {
   private searchSurvey(uuid: string): void {
     this.isLoading = true;
     this.errorMessage = '';
-
-    this.surveyService.getSurveyByUuid(uuid)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (survey) => {
-          this.isLoading = false;
-          this.router.navigate(['/survey', uuid]);
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.errorMessage = error || 'Encuesta no encontrada. Verifica el UUID.';
-        }
-      });
+     this.router.navigate(['/survey', uuid]);
   }
 
   private markFormGroupTouched(): void {

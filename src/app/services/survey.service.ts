@@ -82,7 +82,7 @@ export class SurveyService {
   }
 
   getSurveyByUuid(uuid: string): Observable<Survey> {
-    return this.http.get<ApiResponse<Survey>>(`${this.API_URL}/uuid/${uuid}`)
+    return this.http.get<ApiResponse<Survey>>(`${environment.apiUrl}/surveys/${uuid}`)
       .pipe(
         map(response => {
           if (response.success && response.data) {
