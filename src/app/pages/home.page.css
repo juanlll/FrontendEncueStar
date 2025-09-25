@@ -287,3 +287,18 @@
   z-index: 1;
   padding: 2rem 0;
 }
+
+.btn-custom {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: 1rem 2rem;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
